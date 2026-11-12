@@ -1,0 +1,17 @@
+Description: Fix compiler warnings about implicit integer conversion
+Author: Zixing Liu <zixing.liu@canonical.com>
+Last-Update: 2025-01-23
+Forwarded: https://rt.cpan.org/Ticket/Display.html?id=158613
+Bug: https://rt.cpan.org/Ticket/Display.html?id=158613
+
+--- a/src/keyword.c
++++ b/src/keyword.c
+@@ -1009,7 +1009,7 @@
+       continue;
+ 
+     if(PL_parser->in_my && !(reg->hooks->flags & XPK_FLAG_PERMIT_LEXICAL))
+-      croak("'my %.*s' is not permitted as a lexical keyword", kwlen, kw);
++      croak("'my %.*s' is not permitted as a lexical keyword", (int)kwlen, kw);
+ 
+     if(reg->hooks->check)
+       (*reg->hooks->check)(aTHX_ reg->hookdata);

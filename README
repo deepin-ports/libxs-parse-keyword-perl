@@ -78,6 +78,21 @@ PARSE HOOKS
       any newly-introduced lexical variables do not escape from the scope
       of the syntax created by the keyword.
 
+    XPK_FLAG_PERMIT_LEXICAL
+
+      The keyword permits a prefixed my, for the author to indicate that it
+      should have lexical effect. Typically this would only make sense for
+      keywords that declare some new named entity, where normally that
+      keyword's entity is named in the symbol table instead.
+
+      At parse and build time, this fact will be indicated by
+      PL_parser->in_my being set to the KEY_my value, rather than its usual
+      zero.
+
+      This flag is silently ignored on versions of Perl before 5.16,
+      because on earlier versions the my prefix-detecting workaround causes
+      seemingly-unrelated parse failures in utf8.pm.
+
  The permit Stage
 
        const char *permit_hintkey;
@@ -155,7 +170,7 @@ PIECES AND PIECE TYPES
     parsing step is placed into the args or arg0 parameter to the invoked
     function, using a struct type consisting of the following fields:
 
-       typedef struct
+       typedef struct {
           union {
              OP *op;
              CV *cv;
@@ -509,10 +524,10 @@ PIECES AND PIECE TYPES
     Various versions of the macro are provided, each using a different
     selection filter to choose certain available infix operators:
 
-       XPK_INFIX_RELATION         # any relational operator
-       XPK_INFIX_EQUALITY         # an equality operator like `==` or `eq`
-       XPK_INFIX_MATCH_NOSMART    # any sort of "match"-like operator, except smartmatch
-       XPK_INFIX_MATCH_SMART      # XPK_INFIX_MATCH_NOSMART plus smartmatch
+       XPK_INFIX_RELATION         // any relational operator
+       XPK_INFIX_EQUALITY         // an equality operator like `==` or `eq`
+       XPK_INFIX_MATCH_NOSMART    // any sort of "match"-like operator, except smartmatch
+       XPK_INFIX_MATCH_SMART      // XPK_INFIX_MATCH_NOSMART plus smartmatch
 
  XPK_LITERAL
 

@@ -1,2 +1,4 @@
-version=4
-https://metacpan.org/release/XS-Parse-Keyword   .*/XS-Parse-Keyword-v?@ANY_VERSION@@ARCHIVE_EXT@$
+Version: 5
+
+Template: Metacpan
+Dist: XS-Parse-Keyword
